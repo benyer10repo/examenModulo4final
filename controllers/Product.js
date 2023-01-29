@@ -1,18 +1,18 @@
 const { model } = require("mongoose");
 const Product = require("../models/Product");
-
+const catchAsync = require("../utils/catchAsync");//para los errores
 
 //listar
-const getAllProducts = async(req, res) => {
+const getAllProducts = catchAsync(async(req, res) => {
     const products = await Product.find();
     res.status(200).json({
         status: "ok",
         data: products,
     });
-}
+});
 
 //añadir
-const addProduct = async(req, res) => {
+const addProduct = catchAsync(async(req, res) => {
     let newProduct = new Product();
     newProduct.name = req.body.name;
     newProduct.price = req.body.price;
@@ -24,21 +24,21 @@ const addProduct = async(req, res) => {
         status: "ok",
         dataInserted: newProduct,
     });
-}
+});
 
 //mostrar segun id
-const showProduct = async(req, res) => {
+const showProduct = catchAsync(async(req, res) => {
     console.log('Request Id:', req.params.id);
     const products = await Product.findById(req.params.id);
     res.status(200).json({
         status: "ok",
         data: products,
     });
-}
+});
 
 
 //modificar producto
-const updateProduct = async(req, res) => {
+const updateProduct = catchAsync(async(req, res) => {
     console.log('Request Id:', req.params.id);
     let udProduct = await Product.findById(req.params.id);
     udProduct.name = req.body.name;
@@ -51,18 +51,18 @@ const updateProduct = async(req, res) => {
         status: "UPDATE ok",
         data: udProduct,
     });
-}
+});
 
 //eliminar producto
 
-const deleteProduct = async(req, res) => {
+const deleteProduct = catchAsync(async(req, res) => {
     console.log('Request Id:', req.params.id);
     const products = await Product.findById(req.params.id).remove();
     res.status(200).json({
         status: "DELETE ok",
         data: products,
     });
-}
+});
 
 
 
